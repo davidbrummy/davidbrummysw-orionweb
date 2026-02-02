@@ -1,14 +1,26 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { login } from '../services/auth-service';
+
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate(); // Get the navigate function from react-router-dom
 
-  const handleSubmit = (event: React.FormEvent) => {
+
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     console.log('Login submitted:', { email, password });
-    // Handle authentication logic here (e.g., API call)
+    const userData = await login(email, password);
+    if (userData) {
+      // Handle successful login (e.g., update global state, redirect the user)
+      console.log('Login successful! Token:', userData.token);
+      navigate('/'); // Redirect to the homepage or dashboard
+    } else {
+      // Handle failed login (e.g., display an error message)
+      console.log('Login failed. Please check credentials.');
+    }
   };
 
   return (
