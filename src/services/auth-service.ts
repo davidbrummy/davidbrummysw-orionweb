@@ -13,7 +13,7 @@ import axios from 'axios';
 
 // Define the expected shape of the response data
 interface AuthResponse {
-  token: string;
+  response: string;
   // ... other user info like username, email, etc.
 }
 
@@ -24,10 +24,13 @@ export const login = async (email: string, password: string): Promise<AuthRespon
       password,
     });
 
+    console.log("response.data:", response.data); 
+    console.log("response.data.response:", response.data.response); 
+
     // Upon successful login, the server typically returns a JWT
-    if (response.data.token) {
+    if (response.data.response) {
       // Store the token securely (e.g., in localStorage or an httpOnly cookie if possible)
-      localStorage.setItem('user_token', response.data.token);
+      localStorage.setItem('token', response.data.response);
     }
     return response.data;
   } catch (error) {

@@ -12,10 +12,10 @@ const Login: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     console.log('Login submitted:', { email, password });
-    const userData = await login(email, password);
-    if (userData) {
+    const authResponse = await login(email, password);
+    if (authResponse) {
       // Handle successful login (e.g., update global state, redirect the user)
-      console.log('Login successful! Token:', userData.token);
+      console.log('Login successful! Token:', authResponse.response);
       navigate('/'); // Redirect to the homepage or dashboard
     } else {
       // Handle failed login (e.g., display an error message)
