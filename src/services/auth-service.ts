@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { generateRequestId } from '../utils/request-id-generator';
 
   const nodeEnv = import.meta.env.VITE_ENV;
   const publicURL = import.meta.env.VITE_PUBLIC_URL;
@@ -19,9 +20,21 @@ interface AuthResponse {
 
 export const login = async (email: string, password: string): Promise<AuthResponse | null> => {
   try {
+
+
+    const requestId = generateRequestId();
+    console.log(`Generated Request ID: ${requestId}`);
+    
+    const headers = {
+        'X-Request-ID': requestId,  
+    };
+    
+    
     const response = await axios.post<AuthResponse>(apiURL + 'login', {
       email,
       password,
+    }, { // Third argument for configuration
+      headers: headers // Specify the headers here
     });
 
     console.log("response.data:", response.data); 
